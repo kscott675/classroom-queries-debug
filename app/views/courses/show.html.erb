@@ -1,7 +1,4 @@
-<h1>
-  Course #<%= course.id %> details
-</h1>
-
+<h1>Course #<%= @course.id %> details</h1>
 <div>
   <a href="/courses">
     Go back
@@ -21,34 +18,21 @@
     <label for="title_box">
       Title
     </label>
-
-    <input type="text" id="title_box" name="query_title">
+    <input type="text" id="title_box" name="query_title" value="<%= @course.title %>">
   </div>
 
   <div>
     <label for="term_offered_box">
       Term offered
     </label>
-
     <input type="text" id="term_offered_box" name="query_term_offered" value="<%= @course.term_offered %>">
   </div>
 
   <div>
-    <label for="department_id_box">
-      Department
-    </label>
-
+    <label for="department_id_box">Department</label>
     <select id="department_id_box" name="query_department_id">
-      <% Department.order({ :name => :asc }).each do |a_department| %>
-        <% if a_department.id == @course.department_id %>
-          <option value="<%= a_department.id %>" selected>
-            <%= a_department.name %>
-          </option>
-        <% else %>
-          <option value="<%= a_department.id %>">
-            <%= a_department.name %>
-          </option>
-        <% end %>
+      <% Department.order(name: :asc).each do |a_department| %>
+        <option value="<%= a_department.id %>" <%= 'selected' if @course.department_id == a_department.id %>><%= a_department.name %></option>
       <% end %>
     </select>
   </div>
@@ -65,42 +49,38 @@
     Title
   </dt>
   <dd>
-    <%= course.title %>
+    <%= @course.title %>
   </dd>
-
   <dt>
     Term offered
   </dt>
   <dd>
     <%= @course.term_offered %>
   </dd>
-
   <dt>
     Department
   </dt>
   <dd>
-    <% department = Department.where({ :id => @course.department_id }).at(0) %>
+    <% department = Department.find_by(id: @course.department_id) %>
     <a href="/departments/<%= department.id %>"><%= department.name %></a>
   </dd>
-
   <dt>
     Number of enrolled students
   </dt>
   <dd>
-    <%= enrollment.where({ :course_id => @course.id }) %>
+    <%= @course.enrollments.count %>
   </dd>
 </dl>
 
 <hr>
 
-<h2>Roster</h2>
+<h1>Roster</h1>
 <ul>
-  <% Enrollment.where({ :course_id => @course.id }).each do |enrollment| %>
-    <% student = Student.where({ :id => enrollment.student_id }).at(0) %>
+  <% @course.enrollments.each do |enrollment| %>
+    <% student = Student.find_by(id: enrollment.student_id) %>
     <li>
-      <a href="/students/<%= student.id %>">
-        <%= student.first_name %> <%= student.last_name %>
-      </a>
+      <%= "#{student.first_name} #{student.last_name}" %>
     </li>
   <% end %>
 </ul>
+

@@ -18,7 +18,7 @@
       First name
     </label>
 
-    <input type="text" id="first_name_box" name="query_name">
+    <input type="text" id="first_name_box" name="query_first_name">
   </div>
 
   <div>
@@ -57,11 +57,11 @@
     <th>
     </th>
   </tr>
-
-  <% @students.eac do |student| %>
+  <% student_id = nil %>
+  <% @students.each do |student| %>
     <tr>
       <td>
-        <%= student.id %>
+        <%= student_id = student.id %>
       </td>
 
       <td>
@@ -77,7 +77,8 @@
       </td>
 
       <td>
-        <a href="/students/<%= student %>">
+        <% %>
+        <a href="/students/<%= student_id %>">
           Show details
         </a>
       </td>
