@@ -33,54 +33,53 @@
     <select id="department_id_box" name="query_department_id">
       <% Department.order(name: :asc).each do |a_department| %>
         <option value="<%= a_department.id %>" <%= 'selected' if @course.department_id == a_department.id %>><%= a_department.name %></option>
-      <% end %>
-    </select>
-  </div>
+        <% end %>
+      </select>
+    </div>
 
-  <button>
-    Update course
-  </button>
-</form>
+    <button>
+      Update course
+    </button>
+  </form>
 
-<hr>
+  <hr>
 
-<dl>
-  <dt>
-    Title
-  </dt>
-  <dd>
-    <%= @course.title %>
-  </dd>
-  <dt>
-    Term offered
-  </dt>
-  <dd>
-    <%= @course.term_offered %>
-  </dd>
-  <dt>
-    Department
-  </dt>
-  <dd>
-    <% department = Department.find_by(id: @course.department_id) %>
-    <a href="/departments/<%= department.id %>"><%= department.name %></a>
-  </dd>
-  <dt>
-    Number of enrolled students
-  </dt>
-  <dd>
-    <%= @course.enrollments.count %>
-  </dd>
-</dl>
+  <dl>
+    <dt>
+      Title
+    </dt>
+    <dd>
+      <%= @course.title %>
+    </dd>
+    <dt>
+      Term offered
+    </dt>
+    <dd>
+      <%= @course.term_offered %>
+    </dd>
+    <dt>
+      Department
+    </dt>
+    <dd>
+      <% department = Department.find_by(id: @course.department_id) %>
+      <a href="/departments/<%= department.id %>"><%= department.name %></a>
+    </dd>
+    <dt>
+      Number of enrolled students
+    </dt>
+    <dd>
+      <%= @course.enrollments.count %>
+    </dd>
+  </dl>
 
-<hr>
+  <hr>
 
-<h1>Roster</h1>
-<ul>
-  <% @course.enrollments.each do |enrollment| %>
-    <% student = Student.find_by(id: enrollment.student_id) %>
-    <li>
-      <%= "#{student.first_name} #{student.last_name}" %>
-    </li>
-  <% end %>
-</ul>
-
+  <h1>Roster</h1>
+  <ul>
+    <% @course.enrollments.each do |enrollment| %>
+      <% student = Student.find_by(id: enrollment.student_id) %>
+      <li>
+        <a href="/students/<%= student.id %>"><%= "#{student.first_name} #{student.last_name}" %></a>
+      </li>
+    <% end %>
+  </ul>
